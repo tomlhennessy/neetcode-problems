@@ -1,15 +1,33 @@
-# Problem Restate:
-We are given a 9x9 sudoku board with some numbers filled in (from 1 to 9). We are to return true or false as to whether the sudoku board is valid. A board is valid when each row, column, and 3x3 grid within the board contains only unique digits.
+# Problem Restate
+Check a 9x9 board is **valid** (not necessary solvable/complete):
+- Rows contain 1-9 without duplicates
+- Columns contain 1-9 without duplicates
+- Each 3x3 subbox contains 1-9 without duplicates
+- Dots `'.'` are blanks and ignored
 
-# Key Design question:
-We can use a set to check for duplicates in each row, column, and 3x3 mini grid. We iterate through and check for a duplicate, returning false if a duplicate is found, and true if we make it to the end with no duplicates after completing all 3 checks. I’ve broken the solution down into 3 clear sections.
+# Key Design Question
+How to detect duplicates across rows, columns and 3x3 boxes in one pass?
+- Maintain 3 trackers:
+  • `rows[9]`, `cols[9]`, `boxes[9]` (each a `Set<Character>` or Boolean bitmask)
+- For each cell `(r, c)` with digit `ch`:
+  • Compute box index: `b = (r / 3) * 3 + (c / 3)`
+  • If `ch` already in `rows[r]` or `cols[c]` or `boxes[b]` -> invalid
+  • Else add to all three
 
-# Complexities:
-This solution uses O(n^2) time complexity and O(n^2) space complexity, which is efficient given the constraints of a sudoku board.
+# Box Index Formula (why it works)
+- `r / 3` selects the row band (0..2), `c / 3` selects the column band (0..2)
+- There are 3 boxes per "box-row" -> `box = 3 * (r/3) + (c/3)`
 
-# What I learned:
-I learnt how order matters when iterating over rows and columns in a 2D array. I also learnt how to divide the grid into sub-grids and be able to manage those values independently to other sub-grids.
+# Complexities
+Time: O(81) = O(1) (fixed 9x9 board)
+Space: O(1) (three arrays of 9 sets/bitmasks)
 
-# Mistakes Made:
-- Using integers in the in the HashSet instead of characters -> must keep logic aligned with char[][] - data is already in char form
-- Forgetting to check for values without a digit (`.`)
+# What I Learned
+- One-check pass with parallel trackers is simpler than seperate row/col/box scans
+- Treat blanks as "skip"; only digits participate in duplicate checks
+- Box mapping via integer division removes need for a triple loop
+
+# Mistakes to avoid
+- Using `"."` (string) instead of `'.'` (char)
+- Forgetting the box index formula or miscomputing it
+- Multiple passes when one suffices
