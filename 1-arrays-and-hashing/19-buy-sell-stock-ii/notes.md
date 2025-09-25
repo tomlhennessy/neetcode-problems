@@ -1,15 +1,22 @@
-# Problem Restate:
-Given an array of prices, find the maximum amount of profit you can make buy buying and selling at a given price on any number of days.
+# Problem Restate
+Maximise profit with **unlimited** transactions (can buy/sell same day), holding **at most one** share at a time.
 
-# Key Design question:
-We are allowed unlimited buys/sells so we can use a greedy algorithm.
+# Key Design Question
+How to capture all profitable moves without overthinking peaks/valleys?
+- **Greedy**: sum every positive day-to-day increase
+- Intuition: buying at each valley and selling at each peak == summing all positive deltas between them
 
-# Complexities:
-time complexity: O(n)
-space complexity: O(1)
+# Complexities
+Time: O(n)
+Space: O(1)
 
-# What I learned:
-The greedy algorithm works because unlimited transactions are allowed. There is no reason to wait for a more optimal result. So each time, we always choose the best local result.
+# What I learned
+- No single trade; add all rises
+- No need to track holding state specifically with this greedy
+- Equal prices don't matter
 
-# Mistakes Made:
-- forgetting to set `i < prices.length - 1` to prevent the loop from going out of bounds
+# Mistakes to Avoid
+- Solving as Stock I (tracking global min and max profit)
+- Using `>=` (doesn't hurt, but unnecessary; zero adds nothing)
+- Off-by-one: loop must start at `i = 1`
+

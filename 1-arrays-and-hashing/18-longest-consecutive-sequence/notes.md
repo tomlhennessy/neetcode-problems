@@ -1,16 +1,24 @@
-# Problem Restate:
-Find the longest sequence of consecutive numbers in the nums array.
+# Problem Restate
+Return the length of the longest run of integers that appear consecutively (e.g. 2,3,4,5) in any order in the array
 
-# Key Design question:
-Use a HashSet to lookup values in O(1) time. Iterate through the numbers and find the beginning of a sequence. Keep track of the length of the sequence and compare it with the max length of a sequence found so far.
+# Key Design
+Use a HashSet for O(1) membership, and only grow sequences from their starts:
+  - Put all numbers into a `set`
+  - For each `x` in `set`, if `x-1` is **not** in `set`, then `x` is a start
+  - Walk forward: `curr = x`, `len = 1`; while `set.contains(curr + 1)`, do `curr++`, `len++`
+  - Track `best = max(best, len)`; return best
 
-# Complexities:
-Time: O(n) complexity
-Space O(n) complexity
+Why it's O(n) -> each run is expanded once, from its unique smallest element
 
-# What I learned:
-I learned how to find the start of a sequence, as well as how to track the length of a sequence.
+# Complexities
+Time: O(n) average
+Space: O(n) for the set
 
-# Mistakes Made:
-- initialising length (should be 1) and current (should be num)
-- looping through n as an index instead of looping over the actual nums
+# What I Learned
+- Starts-only rule: test `x-1` not in set to avoid re-counting
+- Duplicate don't matter (set dedups)
+- No need to store runs; just keep `best` length
+
+# Mistakes to Avoid
+- Starting counts at every element (becomes O(n^2))
+- Iterating the array and missing starts due to duplicates - iterate the set

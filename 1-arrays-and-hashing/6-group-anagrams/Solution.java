@@ -12,7 +12,7 @@ class Solution {
       char[] chars = s.toCharArray();
       Arrays.sort(chars);
       String key = new String(chars);
-      groups.computeIfAbsent(key, k -> new ArrayList<>()).add(s);
+      groups.computeIfAbsent(key, _ -> new ArrayList<>()).add(s);
     }
 
     return new ArrayList<>(groups.values());

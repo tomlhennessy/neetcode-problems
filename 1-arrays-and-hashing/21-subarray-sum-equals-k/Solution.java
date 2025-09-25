@@ -3,18 +3,15 @@ import java.util.Map;
 
 public class Solution {
   public int subarraySum(int[] nums, int k) {
-    Map<Integer, Integer> prefix = new HashMap<>();
-    prefix.put(0, 1); // base case
+    Map<Integer, Integer> freq = new HashMap<>();
+    freq.put(0, 1);
     int sum = 0;
     int count = 0;
 
-    for (int num : nums) {
-      sum += num;
-      if (prefix.containsKey(sum - k)) {
-        count += prefix.get(sum - k);
-      }
-
-      prefix.put(sum, prefix.getOrDefault(sum, 0) + 1);
+    for (int x : nums) {
+      sum += x;
+      count += freq.getOrDefault(sum - k, 0);         // look back
+      freq.put(sum, freq.getOrDefault(sum, 0) + 1);   // record this prefix sum
     }
 
     return count;

@@ -1,16 +1,26 @@
-# Problem Restate:
-Return the integers in the nums array that account for more than a third of the array
+# Problem Restate
+Return all elements appearing more than **[n/3] times** (0-2 answers)
 
-# Key Design question:
-There can only ever be a max of two candidates as together they would make up over two thirds of the array. We can select the majority candidates and then validate their count using an extension of Boyer-Moore's voting algorithm.
+# Key Design Question
+How to get it in O(n) time, O(1) space?
+- Use Boyer-Moore (n/3) variant:
+  • Keep two candidates and counts
+  • Single pass to select candidates by cancelling triples
+  • Second pass to verify counts
 
-# Complexities:
-time complexity: O(n)
-space complexity: O(1)
+# Why it Works
+Every time you see three different numbers, they can't all be > n/3; cancelling keeps potential majorities alive while non-majorities vanish.
 
-# What I learned:
-- Integer must be used for null types and `.equals` can be used as a safer option than `==`
+# Complexities
+Time: O(n) (two passes)
+Space: O(1)
 
-# Mistakes Made:
-- forgetting to do null checks
-- forgetting to reset to `count = 1` when selecting a new candidate
+# What I Learned
+- For threshold > n/k, you need k-1 candidates
+- Verification pass is mandatory; selection doesn't guarantee frequency
+- Guard against `cand1 == cand2` when adding results
+
+# Mistakes to Avoid
+- Returning candidates without verification
+- Forgetting to reset counts before verification
+- Using same initial value for both candidates (make them distinct or rely on counts)
