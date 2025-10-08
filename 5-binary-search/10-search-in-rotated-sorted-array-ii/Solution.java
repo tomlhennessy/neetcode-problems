@@ -25,13 +25,17 @@ public class Solution {
         } else {
           lo = mid + 1;
         }
-      } else {
+      } else if (nums[mid] < nums[hi]) {
         // right half sorted
         if (nums[mid] < target && target <= nums[hi]) {
           lo = mid + 1;
         } else {
           hi = mid - 1;
         }
+      } else {
+        if (nums[lo] == nums[mid]) { lo++; }
+        if (nums[hi] == nums[mid]) { hi--; }
+        continue;
       }
     }
 
