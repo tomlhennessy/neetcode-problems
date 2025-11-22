@@ -10,8 +10,6 @@ public class Solution {
     if (root == null) { return res; }
     Deque<TreeNode> stack = new ArrayDeque<>();
 
-
-    TreeNode curr = root;
     stack.push(root);
 
     while (!stack.isEmpty()) {
